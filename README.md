@@ -60,6 +60,7 @@ Add to your Claude Desktop or Claude Code settings:
 | ---------------------- | ---------------------------------- |
 | `scrape_subreddit`     | Scrape posts from a subreddit      |
 | `scrape_user`          | Scrape posts from a user's profile |
+| `scrape_post`          | Fetch a specific post by URL       |
 | `get_posts`            | Query stored posts with filters    |
 | `get_comments`         | Query stored comments              |
 | `search_reddit`        | Search across all scraped data     |
@@ -70,6 +71,8 @@ Add to your Claude Desktop or Claude Code settings:
 
 ```
 "Scrape the top 50 posts from r/LocalLLaMA"
+
+"Fetch this post: https://reddit.com/r/ClaudeAI/comments/abc123/title"
 
 "Search my scraped data for posts about 'fine-tuning'"
 

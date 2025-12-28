@@ -5,7 +5,7 @@ https://github.com/ksanjeev284/reddit-universal-scraper
 """
 
 from .server import main
-from .scraper import run_scraper, scrape_async
+from .scraper import run_scraper, scrape_async, run_fetch_post, fetch_post_async
 
-__version__ = "0.1.1"
-__all__ = ["main", "run_scraper", "scrape_async"]
+__version__ = "0.2.0"
+__all__ = ["main", "run_scraper", "scrape_async", "run_fetch_post", "fetch_post_async"]

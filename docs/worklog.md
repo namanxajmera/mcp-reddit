@@ -5,6 +5,21 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2025-12-28 09:03:48 UTC
+
+**Activity**: Added scrape_post tool
+**What**: New tool to fetch a specific Reddit post by URL
+**Details**:
+
+- Added `parse_reddit_url()` to extract permalink from any Reddit URL format
+- Added `fetch_post_async()` and `run_fetch_post()` in scraper.py
+- Added `scrape_post` tool in server.py (8 tools total now)
+- Updated README, CLAUDE.md with new tool
+- Tested locally - works with FantasyPL post
+- Bumped version to 0.2.0 (new feature)
+
+---
+
 ## 2025-12-28 08:46:27 UTC
 
 **Activity**: Preparing v0.1.1 release
