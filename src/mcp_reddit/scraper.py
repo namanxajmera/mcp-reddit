@@ -535,13 +535,20 @@ def parse_reddit_url(url: str) -> str | None:
     return None
 
 
-async def fetch_post_async(url: str, scrape_comments: bool = True) -> dict:
+async def fetch_post_async(
+    url: str,
+    scrape_comments: bool = True,
+    download_media: bool = False,
+    data_dir: str = "data",
+) -> dict:
     """
     Fetch a specific post by URL.
 
     Args:
         url: Reddit post URL or permalink
         scrape_comments: Whether to fetch comments
+        download_media: Whether to download images/videos
+        data_dir: Directory to store media
 
     Returns:
         Dict with post data and comments
@@ -565,19 +572,74 @@ async def fetch_post_async(url: str, scrape_comments: bool = True) -> dict:
         post_data = data[0]["data"]["children"][0]["data"]
         post = extract_post_data(post_data)
 
+        # Download media if requested
+        media_paths = []
+        if download_media:
+            # Extract subreddit from permalink for storage
+            parts = permalink.split("/")
+            subreddit = parts[2] if len(parts) > 2 else "unknown"
+            media_dir = f"{data_dir}/r_{subreddit}/media"
+            images_dir = f"{media_dir}/images"
+            videos_dir = f"{media_dir}/videos"
+
+            for d in [media_dir, images_dir, videos_dir]:
+                os.makedirs(d, exist_ok=True)
+
+            media = extract_media_urls(post_data)
+            media_tasks = []
+
+            for i, img_url in enumerate(media["images"][:5]):
+                ext = os.path.splitext(urlparse(img_url).path)[1] or ".jpg"
+                save_path = f"{images_dir}/{post['id']}_{i}{ext}"
+                media_tasks.append(download_media_async(session, img_url, save_path))
+                media_paths.append(save_path)
+
+            for i, img_url in enumerate(media["galleries"][:10]):
+                save_path = f"{images_dir}/{post['id']}_gallery_{i}.jpg"
+                media_tasks.append(download_media_async(session, img_url, save_path))
+                media_paths.append(save_path)
+
+            for i, vid_url in enumerate(media["videos"][:2]):
+                if "youtube" not in vid_url:
+                    save_path = f"{videos_dir}/{post['id']}_{i}.mp4"
+                    if "v.redd.it" in vid_url or "reddit.com" in vid_url:
+                        media_tasks.append(
+                            download_reddit_video_with_audio_async(
+                                session, vid_url, save_path
+                            )
+                        )
+                    else:
+                        media_tasks.append(
+                            download_media_async(session, vid_url, save_path)
+                        )
+                    media_paths.append(save_path)
+
+            if media_tasks:
+                await asyncio.gather(*media_tasks, return_exceptions=True)
+
         # Parse comments
         comments = []
         if scrape_comments and len(data) > 1:
             comments = parse_comments(data[1]["data"]["children"], permalink)
 
-        return {
+        result = {
             "success": True,
             "post": post,
             "comments": comments,
             "comment_count": len(comments),
         }
 
+        if download_media and media_paths:
+            result["media_paths"] = media_paths
 
-def run_fetch_post(url: str, scrape_comments: bool = True) -> dict:
+        return result
+
+
+def run_fetch_post(
+    url: str,
+    scrape_comments: bool = True,
+    download_media: bool = False,
+    data_dir: str = "data",
+) -> dict:
     """Sync wrapper to fetch a specific post."""
-    return asyncio.run(fetch_post_async(url, scrape_comments))
+    return asyncio.run(fetch_post_async(url, scrape_comments, download_media, data_dir))

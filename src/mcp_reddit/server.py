@@ -263,12 +263,17 @@ async def list_tools() -> list[Tool]:
                         "description": "Whether to fetch comments (default: true)",
                         "default": True,
                     },
+                    "download_media": {
+                        "type": "boolean",
+                        "description": "Whether to download images and videos (default: false)",
+                        "default": False,
+                    },
                 },
                 "required": ["url"],
             },
             annotations=ToolAnnotations(
                 title="Scrape Post",
-                readOnlyHint=True,
+                readOnlyHint=False,
                 destructiveHint=False,
             ),
         ),
@@ -342,6 +347,7 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
             result = await scrape_post(
                 arguments["url"],
                 arguments.get("scrape_comments", True),
+                arguments.get("download_media", False),
             )
             return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
@@ -670,7 +676,7 @@ async def list_scraped_sources() -> dict:
         return {"success": False, "error": str(e)}
 
 
-async def scrape_post(url: str, scrape_comments: bool) -> dict:
+async def scrape_post(url: str, scrape_comments: bool, download_media: bool) -> dict:
     """Fetch a specific post by URL."""
     try:
         loop = asyncio.get_event_loop()
@@ -679,6 +685,8 @@ async def scrape_post(url: str, scrape_comments: bool) -> dict:
             run_fetch_post,
             url,
             scrape_comments,
+            download_media,
+            DATA_DIR,
         )
         return result
     except Exception as e:

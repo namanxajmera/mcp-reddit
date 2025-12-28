@@ -62,23 +62,23 @@ Or manually in `~/.claude.json`:
 
 ## Available Tools
 
-| Tool                   | Description                        |
-| ---------------------- | ---------------------------------- |
-| `scrape_subreddit`     | Scrape posts from a subreddit      |
-| `scrape_user`          | Scrape posts from a user's profile |
-| `scrape_post`          | Fetch a specific post by URL       |
-| `get_posts`            | Query stored posts with filters    |
-| `get_comments`         | Query stored comments              |
-| `search_reddit`        | Search across all scraped data     |
-| `get_top_posts`        | Get highest scoring posts          |
-| `list_scraped_sources` | List all scraped subreddits/users  |
+| Tool                   | Description                                            |
+| ---------------------- | ------------------------------------------------------ |
+| `scrape_subreddit`     | Scrape posts from a subreddit                          |
+| `scrape_user`          | Scrape posts from a user's profile                     |
+| `scrape_post`          | Fetch a specific post by URL (supports media download) |
+| `get_posts`            | Query stored posts with filters                        |
+| `get_comments`         | Query stored comments                                  |
+| `search_reddit`        | Search across all scraped data                         |
+| `get_top_posts`        | Get highest scoring posts                              |
+| `list_scraped_sources` | List all scraped subreddits/users                      |
 
 ## Example Usage
 
 ```
 "Scrape the top 50 posts from r/LocalLLaMA"
 
-"Fetch this post: https://reddit.com/r/ClaudeAI/comments/abc123/title"
+"Fetch this post and download the image: https://reddit.com/r/ClaudeAI/comments/abc123/title"
 
 "Search my scraped data for posts about 'fine-tuning'"
 

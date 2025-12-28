@@ -5,6 +5,20 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2025-12-28 09:14:53 UTC
+
+**Activity**: Added download_media to scrape_post
+**What**: scrape_post now supports downloading images/videos
+**Details**:
+
+- Added download_media and data_dir params to fetch_post_async/run_fetch_post
+- Updated server.py tool definition and handler
+- Returns media_paths in response showing where files saved
+- Tested - downloads to ~/.mcp-reddit/data/r\_{subreddit}/media/images/
+- Bumped version to 0.2.1
+
+---
+
 ## 2025-12-28 09:03:48 UTC
 
 **Activity**: Added scrape_post tool
