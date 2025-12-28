@@ -12,7 +12,7 @@ from datetime import datetime
 
 import pandas as pd
 from mcp.server import Server
-from mcp.types import Tool, TextContent
+from mcp.types import Tool, TextContent, ToolAnnotations
 
 from .scraper import run_scraper
 
@@ -55,11 +55,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["subreddit"]
             },
-            annotations={
-                "title": "Scrape Subreddit",
-                "readOnlyHint": False,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Scrape Subreddit",
+                readOnlyHint=False,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="scrape_user",
@@ -89,11 +89,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["username"]
             },
-            annotations={
-                "title": "Scrape User",
-                "readOnlyHint": False,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Scrape User",
+                readOnlyHint=False,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="get_posts",
@@ -132,11 +132,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["target"]
             },
-            annotations={
-                "title": "Get Posts",
-                "readOnlyHint": True,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Get Posts",
+                readOnlyHint=True,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="get_comments",
@@ -170,11 +170,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["target"]
             },
-            annotations={
-                "title": "Get Comments",
-                "readOnlyHint": True,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Get Comments",
+                readOnlyHint=True,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="search_reddit",
@@ -200,11 +200,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["query"]
             },
-            annotations={
-                "title": "Search Reddit",
-                "readOnlyHint": True,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Search Reddit",
+                readOnlyHint=True,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="get_top_posts",
@@ -229,11 +229,11 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": ["target"]
             },
-            annotations={
-                "title": "Get Top Posts",
-                "readOnlyHint": True,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="Get Top Posts",
+                readOnlyHint=True,
+                destructiveHint=False,
+            )
         ),
         Tool(
             name="list_scraped_sources",
@@ -242,11 +242,11 @@ async def list_tools() -> list[Tool]:
                 "type": "object",
                 "properties": {}
             },
-            annotations={
-                "title": "List Scraped Sources",
-                "readOnlyHint": True,
-                "destructiveHint": False,
-            }
+            annotations=ToolAnnotations(
+                title="List Scraped Sources",
+                readOnlyHint=True,
+                destructiveHint=False,
+            )
         )
     ]
 
@@ -499,7 +499,7 @@ async def get_comments(target: str, is_user: bool, limit: int, min_score: int, s
 async def search_reddit(query: str, search_in: str, limit: int) -> dict:
     """Search across all scraped data."""
     try:
-        results = {"posts": [], "comments": []}
+        results: dict[str, list[Any]] = {"posts": [], "comments": []}
         data_dir = Path(DATA_DIR)
 
         if not data_dir.exists():

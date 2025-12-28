@@ -5,6 +5,34 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2025-12-28 08:35:47 UTC
+
+**Activity**: Improved hooks and CLAUDE.md
+**What**: Made stop hook smarter, updated CLAUDE.md with project-specific info
+**Details**:
+
+- Updated `stop_worklog_check.py` to check for actual uncommitted file changes (git status) instead of time-based staleness
+- Filters out worklog.md and .claude/ from change detection
+- Only prompts if real work done AND not documented in last 5 min
+- Rewrote CLAUDE.md with proper project overview, Python dev commands, architecture docs
+- Installed prettier globally for JSON/MD formatting in hooks
+
+---
+
+## 2025-12-28 08:29:57 UTC
+
+**Activity**: Fixed lint and type issues
+**What**: Resolved all ruff and mypy errors
+**Details**:
+
+- Removed unused `Path` import in scraper.py
+- Changed Tool annotations from dict to `ToolAnnotations()` class (mypy)
+- Added type hint `dict[str, list[Any]]` for `results` variable
+- Installed `types-aiofiles` and `pandas-stubs` for mypy
+- Installed `ruff` and `prettier` globally for hooks to work
+
+---
+
 ## 2025-12-28 08:19:07 UTC
 
 **Activity**: Published to PyPI

@@ -11,7 +11,6 @@ import datetime
 import time
 import os
 import random
-from pathlib import Path
 from urllib.parse import urlparse
 import tempfile
 
