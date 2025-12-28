@@ -5,6 +5,20 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2025-12-28 08:46:27 UTC
+
+**Activity**: Preparing v0.1.1 release
+**What**: Tested PyPI install, bumped version, ran pre-deploy checks
+**Details**:
+
+- Removed local MCP, installed from PyPI via `uvx mcp-reddit`
+- Tested all 7 tools - all working
+- Bumped version to 0.1.1 in pyproject.toml and **init**.py
+- Ran docs-sync (all synced) and deploy-check (all clear)
+- Lint and type checks pass
+
+---
+
 ## 2025-12-28 08:35:47 UTC
 
 **Activity**: Improved hooks and CLAUDE.md
