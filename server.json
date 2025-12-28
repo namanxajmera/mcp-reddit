@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "io.github.yourusername/mcp-reddit",
+  "description": "Scrape Reddit without API keys - posts, comments, media from subreddits and users",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registry_type": "pypi",
+      "identifier": "mcp-reddit"
+    }
+  ],
+  "tools": [
+    {
+      "name": "scrape_subreddit",
+      "description": "Scrape posts from a subreddit"
+    },
+    {
+      "name": "scrape_user",
+      "description": "Scrape posts from a user's profile"
+    },
+    {
+      "name": "get_posts",
+      "description": "Query stored posts with filters"
+    },
+    {
+      "name": "get_comments",
+      "description": "Query stored comments"
+    },
+    {
+      "name": "search_reddit",
+      "description": "Search across all scraped data"
+    },
+    {
+      "name": "get_top_posts",
+      "description": "Get highest scoring posts"
+    },
+    {
+      "name": "list_scraped_sources",
+      "description": "List all scraped subreddits/users"
+    }
+  ]
+}
