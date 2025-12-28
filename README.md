@@ -41,7 +41,13 @@ Add to your Claude Desktop or Claude Code settings:
 }
 ```
 
-### Claude Code (`~/.claude/settings.json`)
+### Claude Code
+
+```bash
+claude mcp add reddit -- uvx mcp-reddit
+```
+
+Or manually in `~/.claude.json`:
 
 ```json
 {
