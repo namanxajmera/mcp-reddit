@@ -117,6 +117,12 @@ Built on top of [reddit-universal-scraper](https://github.com/ksanjeev284/reddit
 by [@ksanjeev284](https://github.com/ksanjeev284) - a full-featured Reddit scraper with
 analytics dashboard, REST API, and plugin system.
 
+## Releasing
+
+1. Update version in `pyproject.toml` and `src/mcp_reddit/__init__.py`
+2. Commit and push
+3. Create GitHub release → auto-publishes to PyPI
+
 ## License
 
 MIT
