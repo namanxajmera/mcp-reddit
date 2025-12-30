@@ -30,16 +30,27 @@ Add to your Claude Desktop or Claude Code settings:
 
 ### Claude Desktop (`~/Library/Application Support/Claude/claude_desktop_config.json`)
 
+Claude Desktop doesn't inherit your shell PATH, so you need the full path to `uvx`:
+
+```bash
+# Find your uvx path
+which uvx
+```
+
+Then use the full path in your config:
+
 ```json
 {
   "mcpServers": {
     "reddit": {
-      "command": "uvx",
+      "command": "/Users/YOUR_USERNAME/.local/bin/uvx",
       "args": ["mcp-reddit"]
     }
   }
 }
 ```
+
+Replace `/Users/YOUR_USERNAME/.local/bin/uvx` with the output from `which uvx`.
 
 ### Claude Code
 
@@ -95,7 +106,7 @@ Set `MCP_REDDIT_DATA_DIR` environment variable to customize:
 {
   "mcpServers": {
     "reddit": {
-      "command": "uvx",
+      "command": "/Users/YOUR_USERNAME/.local/bin/uvx",
       "args": ["mcp-reddit"],
       "env": {
         "MCP_REDDIT_DATA_DIR": "/path/to/your/data"
@@ -125,12 +136,6 @@ choco install ffmpeg
 Built on top of [reddit-universal-scraper](https://github.com/ksanjeev284/reddit-universal-scraper)
 by [@ksanjeev284](https://github.com/ksanjeev284) - a full-featured Reddit scraper with
 analytics dashboard, REST API, and plugin system.
-
-## Releasing
-
-1. Update version in `pyproject.toml` and `src/mcp_reddit/__init__.py`
-2. Commit and push
-3. Create GitHub release → auto-publishes to PyPI
 
 ## License
 

@@ -5,6 +5,20 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2025-12-30 03:22:24 UTC
+
+**Activity**: Fixed Claude Desktop config instructions in README
+**What**: Claude Desktop doesn't inherit shell PATH, so `uvx` command wasn't found
+**Details**:
+
+- User testing revealed "Failed to spawn process: No such file or directory" error
+- Root cause: Claude Desktop GUI app doesn't inherit shell PATH where uvx lives (~/.local/bin/)
+- Updated README to instruct users to run `which uvx` and use full path in config
+- Fixed both main config example and env variable example
+- Tested with full path `/Users/naman/.local/bin/uvx` - pending restart to confirm
+
+---
+
 ## 2025-12-28 09:14:53 UTC
 
 **Activity**: Added download_media to scrape_post
