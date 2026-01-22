@@ -24,6 +24,34 @@ Or with uvx:
 uvx mcp-reddit
 ```
 
+## Usage Modes
+
+### Local (stdio) - Default
+
+For local MCP clients like Claude Desktop and Claude Code:
+
+```bash
+uvx mcp-reddit
+```
+
+### Remote (HTTP/SSE)
+
+For remote MCP clients that connect via URL:
+
+```bash
+uvx mcp-reddit --http --port 8000
+```
+
+Options:
+- `--http` - Run in HTTP/SSE mode instead of stdio
+- `--host` - Host to bind to (default: 0.0.0.0)
+- `--port` - Port to listen on (default: 8000, or `PORT` env var)
+
+The server exposes:
+- `GET /sse` - SSE endpoint for MCP connection
+- `POST /messages/` - Message endpoint
+- `GET /health` - Health check
+
 ## Configuration
 
 Add to your Claude Desktop or Claude Code settings:

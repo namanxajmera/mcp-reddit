@@ -4,6 +4,7 @@ Based on reddit-universal-scraper by @ksanjeev284
 https://github.com/ksanjeev284/reddit-universal-scraper
 """
 
+import argparse
 import asyncio
 import json
 import os
@@ -693,17 +694,74 @@ async def scrape_post(url: str, scrape_comments: bool, download_media: bool) -> 
         return {"success": False, "error": str(e)}
 
 
-async def run_server():
-    """Run the MCP server."""
+async def run_stdio_server():
+    """Run the MCP server with stdio transport."""
     import mcp.server.stdio
 
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await app.run(read_stream, write_stream, app.create_initialization_options())
 
 
+def run_http_server(host: str, port: int):
+    """Run the MCP server with HTTP/SSE transport."""
+    from mcp.server.sse import SseServerTransport
+    from starlette.applications import Starlette
+    from starlette.routing import Route, Mount
+    from starlette.responses import JSONResponse
+    import uvicorn
+
+    sse = SseServerTransport("/messages/")
+
+    async def handle_sse(request):
+        async with sse.connect_sse(
+            request.scope, request.receive, request._send
+        ) as streams:
+            await app.run(
+                streams[0], streams[1], app.create_initialization_options()
+            )
+
+    async def health(request):
+        return JSONResponse({"status": "ok", "server": "mcp-reddit"})
+
+    starlette_app = Starlette(
+        debug=False,
+        routes=[
+            Route("/health", health),
+            Route("/sse", handle_sse),
+            Mount("/messages/", app=sse.handle_post_message),
+        ],
+    )
+
+    uvicorn.run(starlette_app, host=host, port=port)
+
+
 def main():
     """Entry point."""
-    asyncio.run(run_server())
+    parser = argparse.ArgumentParser(description="MCP Reddit Server")
+    parser.add_argument(
+        "--http",
+        action="store_true",
+        help="Run in HTTP/SSE mode instead of stdio",
+    )
+    parser.add_argument(
+        "--host",
+        default="0.0.0.0",
+        help="Host to bind to (default: 0.0.0.0)",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=None,
+        help="Port to listen on (default: 8000, or PORT env var)",
+    )
+    args = parser.parse_args()
+
+    if args.http:
+        port = args.port or int(os.environ.get("PORT", 8000))
+        print(f"Starting MCP Reddit server in HTTP mode on {args.host}:{port}")
+        run_http_server(args.host, port)
+    else:
+        asyncio.run(run_stdio_server())
 
 
 if __name__ == "__main__":
