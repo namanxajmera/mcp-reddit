@@ -5,6 +5,21 @@
 - **ONLY append new entries to the TOP** - never edit or delete older entries
 - **Run `date -u +"%Y-%m-%d %H:%M:%S UTC"` to get the timestamp** - do NOT guess
 
+## 2026-01-22 09:03:04 UTC
+
+**Activity**: Added HTTP/SSE transport for remote MCP clients
+**What**: Server now supports both stdio (local) and HTTP/SSE (remote) modes
+**Details**:
+
+- Added `--http`, `--host`, `--port` flags to run in HTTP mode
+- Added `/health`, `/sse`, `/messages/` endpoints using Starlette + Uvicorn
+- Reads `PORT` env var for cloud deployments (Railway, etc.)
+- Added `__main__.py` for `python -m mcp_reddit` support
+- Tested deployment on Railway - working
+- Bumped version to 0.3.0
+
+---
+
 ## 2025-12-30 03:22:24 UTC
 
 **Activity**: Fixed Claude Desktop config instructions in README
